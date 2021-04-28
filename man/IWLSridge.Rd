@@ -60,6 +60,7 @@ List, containing:
 \item{unpen}{Boolean: are there any unpenalized covariates involved? Passed on to other functions}
 \item{intercept}{Boolean: Is an intercept included? }
 \item{eta0}{Numerical vector: Initial linear predictors}
+\item{X1}{Matrix: design matrix unpenalized variables}
 }
 
 \references{

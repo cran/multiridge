@@ -53,7 +53,7 @@ List, containing:
 \item{unpen}{Boolean: are there any unpenalized covariates involved? Passed on to other functions}
 \item{intercept}{Boolean: Is an intercept included? }
 \item{eta0}{Numerical vector: Initial linear predictors}
-
+\item{X1}{Matrix: design matrix unpenalized variables}
 }
 \references{
 Mark A. van de Wiel, Mirrelijn van Nee, Armin Rauschenberger (2021). Fast cross-validation for high-dimensional ridge regression. J Comp Graph Stat
