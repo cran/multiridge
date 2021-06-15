@@ -1,8 +1,8 @@
-12f62a203afd920dffbba518b00f425f *DESCRIPTION
+5eca47ea123eaf5f5e5d9604ccb2484e *DESCRIPTION
 4a918ba574fbee91f8101cd103dff7a1 *NAMESPACE
-5d188c2856aa804c56d0c26d0b755aac *R/MultiLambdaCVfun.R
+915eed1778b2ca4cceeeb7cf5d3f7623 *R/MultiLambdaCVfun.R
 09e3a45550ddd1b259448790cd583ca7 *README.md
-49c50a18c4274d8d377772f9b16c3693 *build/partial.rdb
+2865f17584af03c9de8746f903dc6ec0 *build/partial.rdb
 24ab25d2a9fa994eacbcdc6acac6dd21 *data/dataXXmirmeth.rda
 71c6e4157b011d38c29fdf97e7dd2ded *man/CVfolds.Rd
 59e490838ed4fa0136123942b4081a09 *man/CVscore.Rd

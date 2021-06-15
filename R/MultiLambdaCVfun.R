@@ -43,11 +43,11 @@ fastCV2 <- function(XXblocks,Y,X1=NULL,kfold=10,
     }
   }
 
-  if(parallel & sfCpus()==1) {
+  if(parallel){if(sfCpus()==1) {
     message("ERROR: please run the setupParallel() function first")
     #message("Use sourcelibraries=c(\"penalized\")")
     return(NULL)
-  }
+  }}
   if(class(Y) == "Surv" & model != "cox") {
     print("Response is of class survival. Switching to model=\'survival\' ")
     model <- "cox"
@@ -164,6 +164,8 @@ IWLSridge <- function(XXT,Y,X1=NULL,intercept=TRUE,frac1=NULL,eps=1e-7,maxItr=25
     it <- it+1
     nrm <- max(abs(Ypred-Ypredold))
     if(trace) print(nrm)
+    if(is.na(nrm)) {it <- maxItr + 1; nrm <- Inf}
+
     #alt verified for mir data
     # eta2 <- datamir %*% solve(t(datamir) %*% W %*% datamir + diag(rep(penalties[1],ncol(datamir)))) %*% t(datamir) %*% z
   }
@@ -208,7 +210,7 @@ IWLSCoxridge <- function(XXT,Y,X1=NULL,intercept=FALSE,eps=1e-7,maxItr=25,trace=
   #in terms of hat matrix
   #note: eta is lin pred without intercept; etatot incl intercept
   #XXT = SigmaFromBlocks(XXomics[2],penalties=lambdas[2]);Y=resp;X1=NULL;intercept=FALSE;frac1=NULL;eps=1e-7;maxItr=100;trace=TRUE
-
+  #XXT = XXT; Y=surv;X1=NULL;intercept=FALSE;frac1=NULL;eps=1e-7;maxItr=25;trace=TRUE; E0 <- NULL
   n <- length(Y)
   eta0 <- 0
   if(is.null(X1)) unpen <- FALSE else unpen <- TRUE #new 15/4/2021
@@ -242,6 +244,8 @@ IWLSCoxridge <- function(XXT,Y,X1=NULL,intercept=FALSE,eps=1e-7,maxItr=25,trace=
     it <- it+1
     nrm <- max(abs(Ypred-Ypredold))
     if(trace) print(nrm)
+    if(is.na(nrm)) {it <- maxItr + 1; nrm <- Inf}
+
   }
   linearized <- znew + diag(WV) %*% etaold
   if(trace) print(it)
@@ -601,11 +605,11 @@ CVscore <- function(penalties, XXblocks,Y,X1=NULL, pairing=NULL,folds, intercept
   }
 
   response <- Y
-  if(parallel & sfCpus()==1) {
+  if(parallel){if(sfCpus()==1) {
     message("ERROR: please run the setupParallel() function first")
     #message("Use sourcelibraries=c(\"penalized\")")
     return(NULL)
-  }
+  }}
   nf <- length(folds)
   n <- length(response)
   nblocks <- length(XXblocks)
@@ -681,11 +685,11 @@ optLambdas <- function(penaltiesinit=NULL, XXblocks,Y,X1=NULL, pairing=NULL, fol
 
   response <- Y
 
-  if(parallel & sfCpus()==1) {
+  if(parallel){if(sfCpus()==1) {
     message("ERROR: please run the setupParallel() function first")
     #message("Use sourcelibraries=c(\"penalized\")")
     return(NULL)
-  }
+  }}
   npen <- length(XXblocks)
   if(!is.null(fixedpen)) {
     if(length(fixedpen) > (npen-1) | max(fixedpen) > npen){
@@ -734,9 +738,11 @@ optLambdas <- function(penaltiesinit=NULL, XXblocks,Y,X1=NULL, pairing=NULL, fol
   }
 
   #assign("allscores", c(), envir = baseenv())
+  #minimal penalty
+  lb <- log10(0.1/max(penaltiesinit))
 
   if(optmethod != "Brent") optres <- optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod) else
-    optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=-10,upper=10))
+    optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=lb,upper=10))
   if(class(optres)=="try-error") optres <- optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method="Nelder-Mead")
   #if(!is.null(ncol(allscores))) colnames(allscores) <- c("Score", paste("pen",1:npen,sep=""))
 
@@ -1184,11 +1190,13 @@ optLambdas_mgcv <- function(penaltiesinit=NULL, XXblocks,Y, pairing=NULL,model=N
     }
 
     #assign("allscores_mgcv", c(), envir = baseenv())  #saves all evaluations
+    #minimal penalty
+    lb <- log10(0.1/max(penaltiesinit))
 
     if(optmethod != "Brent"){
       optres <- optim(par = c(log(sigmainit),log(multinit)), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod)
     }else{
-      optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=-10,upper=10))
+      optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=lb,upper=10))
       #optres <- try(optimise(CVS, tol=reltol,interval=c(-10,10)))
       }
 
@@ -1218,7 +1226,7 @@ optLambdas_mgcv <- function(penaltiesinit=NULL, XXblocks,Y, pairing=NULL,model=N
 
     if(optmethod != "Brent") optres <- optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod) else
       #optres <- try(optimise(CVS, tol=1,interval=c(-10,10)))
-      optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=-10,upper=10))
+      optres <- try(optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method=optmethod,lower=-5,upper=10))
 
     if(class(optres)=="try-error") optres <- optim(par = log(multinit), CVS, control=list(reltol=reltol,maxit=maxItropt), method="Nelder-Mead")
     #if(!is.null(ncol(allscores_mgcv))) colnames(allscores_mgcv) <- c("Score", paste("pen",1:npen,sep=""))
