@@ -9,7 +9,7 @@ Double cross-validation for estimating performance of \code{multiridge}. Outer f
 \usage{
 doubleCV(penaltiesinit, XXblocks, Y, X1 = NULL, pairing = NULL, outfold = 5,
   infold = 10, nrepeatout =   1, nrepeatin = 1, balance = TRUE, fixedfolds =
-  TRUE, intercept = ifelse(class(Y) == "Surv", FALSE,     TRUE), frac1 = NULL,
+  TRUE, intercept = ifelse(is(Y, "Surv"), FALSE,     TRUE), frac1 = NULL,
   score = "loglik",model = NULL, eps = 1e-07, maxItr = 10, trace = FALSE,
   printCV   = TRUE, reltol = 1e-04, optmethod1 = "SANN", optmethod2 =
   ifelse(length(penaltiesinit) == 1, "Brent", "Nelder-Mead"), maxItropt1 = 10,

@@ -10,7 +10,7 @@ Also implements preferential ridge, which allows to first optimize for the prefe
 }
 \usage{
 optLambdasWrap(penaltiesinit = NULL, XXblocks, Y, X1 = NULL, pairing = NULL,
-  folds, intercept = ifelse(class(Y) == "Surv", FALSE, TRUE), frac1 = NULL,
+  folds, intercept = ifelse(is(Y, "Surv"), FALSE, TRUE), frac1 = NULL,
   score = "loglik", model = NULL, epsIWLS = 0.001, maxItrIWLS = 25,
   traceCV = TRUE, reltol = 1e-04, optmethod1 = "SANN", optmethod2 =
   ifelse(length(penaltiesinit) == 1, "Brent", "Nelder-Mead"), maxItropt1 = 10,

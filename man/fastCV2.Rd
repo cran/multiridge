@@ -8,9 +8,9 @@ Fast cross-validation per data block
 Fast cross-validation for high-dimensional data. Finds optimal penalties separately per data block. Useful for initialization.
 }
 \usage{
-fastCV2(XXblocks, Y, X1 = NULL, kfold = 10, intercept = ifelse(class(Y) ==
-"Surv", FALSE, TRUE), parallel   = FALSE, fixedfolds = TRUE, model = NULL,
-eps = 1e-10, reltol = 0.5, lambdamax= 10^6, traceCV=TRUE)
+fastCV2(XXblocks, Y, X1 = NULL, kfold = 10, intercept =
+ifelse(is(Y, "Surv"), FALSE, TRUE), parallel = FALSE, fixedfolds = TRUE,
+model = NULL, eps = 1e-10, reltol = 0.5, lambdamax= 10^6, traceCV=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

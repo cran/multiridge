@@ -9,7 +9,7 @@ Cross-validated score for given penalty parameters.
 }
 \usage{
 CVscore(penalties, XXblocks, Y, X1 = NULL, pairing = NULL, folds, intercept =
-ifelse(class(Y) == "Surv",FALSE, TRUE), frac1 = NULL, score = "loglik", model =
+ifelse(is(Y, "Surv"),FALSE, TRUE), frac1 = NULL, score = "loglik", model =
 NULL, eps = 1e-07, maxItr = 100, trace = FALSE,   printCV = TRUE, save = FALSE,
 parallel = FALSE)
 }

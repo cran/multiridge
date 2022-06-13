@@ -1,10 +1,10 @@
 exportPattern("^[[:alpha:]]+")
 import(mgcv)
 import(pROC)
-import(risksetROC)
 import(survival)
 import(snowfall)
 importFrom("stats", "cor", "dbinom", "optim")
+importFrom("methods", "is")
 importFrom("utils", "capture.output")
 
 

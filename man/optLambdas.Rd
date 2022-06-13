@@ -9,7 +9,7 @@ Optimizes a cross-validated score w.r.t. ridge penalties for multiple data block
 }
 \usage{
 optLambdas(penaltiesinit = NULL, XXblocks, Y, X1 = NULL, pairing = NULL, folds,
-  intercept = ifelse(class(Y) == "Surv", FALSE, TRUE), frac1 = NULL, score = "loglik",
+  intercept = ifelse(is(Y, "Surv"), FALSE, TRUE), frac1 = NULL, score = "loglik",
   model = NULL, epsIWLS = 0.001, maxItrIWLS = 25, traceCV = TRUE, reltol = 1e-04,
   optmethod = ifelse(length(penaltiesinit) == 1, "Brent", "Nelder-Mead"), maxItropt = 500,
   save = FALSE, parallel = FALSE, fixedpen = NULL, fixedseed = TRUE)

@@ -9,8 +9,8 @@ Outer-loop cross-validation for estimating performance of marginal likelihood ba
 Outer fold is for testing;  penalty parameter tuning is performed by marginal likelihood estimation}
 \usage{
 mlikCV(penaltiesinit, XXblocks, Y, pairing = NULL, outfold = 5, nrepeatout = 1,
-balance = TRUE,fixedfolds = TRUE,  model = NULL, intercept = ifelse(class(Y) ==
-"Surv", FALSE, TRUE),reltol = 1e-04,  trace = FALSE,  optmethod1 = "SANN",
+balance = TRUE,fixedfolds = TRUE,  model = NULL, intercept =
+ifelse(is(Y, "Surv"), FALSE, TRUE), reltol = 1e-04, trace = FALSE, optmethod1 = "SANN",
 optmethod2 = ifelse(length(penaltiesinit) == 1, "Brent", "Nelder-Mead"),
 maxItropt1 = 10, maxItropt2 = 25, parallel = FALSE, pref = NULL,
 fixedpen = NULL, sigmasq = 1, opt.sigma=ifelse(model=="linear",TRUE, FALSE))
